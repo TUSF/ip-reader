@@ -1,0 +1,60 @@
+<html>
+<head>
+  <title>IP-Reader</title>
+
+  <!-- Load IPFS. -->
+  <script src="https://unpkg.com/ipfs/dist/index.min.js"></script>
+  <script src="reader.js"></script>
+
+  <style>
+    body.online #status { display: none; }
+    body.loading #reader, body.offline #reader { display: none; }
+    body.online #reader { display: shown; }
+
+    #reader .metadata .sect { font-weight: bold; }
+    .metadata #coverimg img {
+      max-width: 500px;
+    }
+    
+  </style>
+</head>
+<body class="loading">
+  <h1 id="status">Loading…</h1>
+  <div id="reader">
+    <h2 id="title"></h2>
+    <table class="metadata">
+      <tr>
+        <td class="sect">Alt Names</td>
+        <td id="altnames">&nbsp;</td>
+        <td id="coverimg" rowspan="7"></td>
+      </tr>
+      <tr>
+        <td class="sect">Author</td>
+        <td id="author">&nbsp;</td>
+      </tr>
+      <tr>
+        <td class="sect">Artist</td>
+        <td id="artist">&nbsp;</td>
+      </tr>
+      <tr>
+        <td class="sect">Genres</td>
+        <td id="genres">&nbsp;</td>
+      </tr>
+      <tr>
+        <td class="sect">Type</td>
+        <td id="type">&nbsp;</td>
+      </tr>
+      <tr>
+        <td class="sect">Status</td>
+        <td id="status">&nbsp;</td>
+      </tr>
+      <tr>
+        <td class="sect">Description</td>
+        <td id="description">&nbsp;</td>
+      </tr>
+    </table>
+    <ul id="chapters">
+    </ul>
+  </div>
+</body>
+</html>
