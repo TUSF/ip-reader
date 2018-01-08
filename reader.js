@@ -3,25 +3,32 @@ const node = new Ipfs({ repo: 'ipfs-' + Math.random() })
 node.once('ready', () => {
 	console.log("Node initialized")
 	if( window.location.hash.length > 1 ) {
-		// Load the index within the hash.
-		// The structure of a manga series should go something like this:
+		path = window.location.hash.substr(1).split("/")
+		if( path.length == 1 ) {
+			// Load the index within the hash.
+			// The structure of a manga series should go something like this:
 
-		// manga/
-		//   Ch1/
-		//     001.jpg
-		//     ...
-		//   Ch2/
-		//   index.json
-		//   toc.json
-		//   cover.jpg
+			// manga/
+			//   Ch1/
+			//     001.jpg
+			//     ...
+			//   Ch2/
+			//   index.json
+			//   toc.json
+			//   cover.jpg
 
-		// index.json should contain a single object with metadata about the given series.
-		// toc.json should contain a list of all chapters (in order), with metadata on each chapter.
+			// index.json should contain a single object with metadata about the given series.
+			// toc.json should contain a list of all chapters (in order), with metadata on each chapter.
 
-		loadIndex(window.location.hash.substr(1))
+			loadIndex(window.location.hash.substr(1))
+		} else if( path.length == 2 ) {
+			// Load the chapter.
+			// The reader follows the images within the given folder in alphabetical order.
+			loadChapter( path[0], path[1] )
+		}
 	}
 	window.addEventListener("hashchange", function() {
-		document.body.classList.remove("online")
+		document.body.classList.remove("index")
 		document.body.classList.add("loading")
 		document.getElementById("status").innerHTML="Loading…"
 		if(window.location.hash.length > 1) {
@@ -70,7 +77,7 @@ function loadIndex(hash) {
 
 		console.log('Online status: online')
 		document.body.classList.remove("loading")
-		document.body.classList.add("online")
+		document.body.classList.add("index")
 
 		console.log("Retreiving cover image.")
 		getImage(hash + "/" + index.cover, function(image) {
@@ -90,10 +97,6 @@ function loadIndex(hash) {
 				chap = document.createElement("a")
 				chap.innerText = chapters[i].title
 				chap.href = window.location.hash + "/" + chapters[i].folder + "/"
-				chap.dataset.href = hash + "/" + chapters[i].folder + "/"
-				chap.addEventListener("click", function() {
-					getChapter(hash, this.dataset.href)
-				})
 
 				item.appendChild(chap)
 				chaps.appendChild(item)
@@ -125,7 +128,7 @@ function getImage(hash, callback) {
 	}
 }
 
-function getChapter(hash, folder) {
-	console.log("Loading chapters from: " + hash + "/" + folder)
+function loadChapter(hash, folder) {
+	console.log("Loading chapters from: " + hash +"/"+ folder)
 	//For when I actually start this.
 }

@@ -7,20 +7,29 @@
   <script src="reader.js"></script>
 
   <style>
-    body.online #status { display: none; }
-    body.loading #reader, body.offline #reader { display: none; }
-    body.online #reader { display: shown; }
+    body.index #status, body.index #reader,
+    body.loading #index, body.loading #reader,
+    body.reader #status, body.reader #index { display: none; }
 
     #reader .metadata .sect { font-weight: bold; }
     .metadata #coverimg img {
-      max-width: 500px;
+      max-height: 500px;
     }
-    
+    .genres ul {
+      padding: 0;
+    }
+    .genres li {
+      display: inline-block;
+    }
+    .genres li:before {
+      content: "\2022";
+      padding: 0 0.5em;
+    }
   </style>
 </head>
 <body class="loading">
   <h1 id="status">Loading…</h1>
-  <div id="reader">
+  <div id="index">
     <h2 id="title"></h2>
     <table class="metadata">
       <tr>
@@ -55,6 +64,9 @@
     </table>
     <ul id="chapters">
     </ul>
+  </div>
+  <div id="reader">
+	
   </div>
 </body>
 </html>
