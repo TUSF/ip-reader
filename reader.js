@@ -1,8 +1,8 @@
+console.log("Initializing IPFS node")
 const node = new Ipfs({ repo: 'ipfs-' + Math.random() })
 node.once('ready', () => {
+	console.log("Node initialized")
 	if( window.location.hash.length > 1 ) {
-		hash = window.location.hash.substr(1)
-
 		// Load the index within the hash.
 		// The structure of a manga series should go something like this:
 
@@ -18,7 +18,7 @@ node.once('ready', () => {
 		// index.json should contain a single object with metadata about the given series.
 		// toc.json should contain a list of all chapters (in order), with metadata on each chapter.
 
-		loadIndex(hash)
+		loadIndex(window.location.hash.substr(1))
 	}
 	window.addEventListener("hashchange", function() {
 		document.body.classList.remove("online")
@@ -36,6 +36,7 @@ node.once('ready', () => {
 
 
 function loadIndex(hash) {
+	console.log("Loading index: " + hash)
 	node.files.cat(hash + "/index.json", function(err, data) {
 		if(err) {
 			return console.error('Error - ipfs files cat', err)
@@ -66,13 +67,17 @@ function loadIndex(hash) {
 		document.body.classList.remove("loading")
 		document.body.classList.add("online")
 
+		console.log("Retreiving cover image.")
 		getImage(hash + "/" + index.cover, function(image) {
 			img = document.createElement("img")
 			img.src = image
 			document.getElementById("coverimg").appendChild(img)
+			console.log("Cover image retrieved.")
 		})
 
+		console.log("Retrieving table of contents.")
 		node.files.cat(hash+"/toc.json", function(err, data) {
+			console.log("Table of contents retrieved.")
 			chaps = document.getElementById("chapters")
 			chapters = JSON.parse(data)
 			for( var i = 0; i < chapters.length; i++ ) {
@@ -114,4 +119,6 @@ function getImage(hash, callback) {
 }
 
 function getChapter(hash, folder) {
+	console.log("Loading chapters from: " + hash + "/" + folder)
+	//For when I actually start this.
 }
