@@ -41,6 +41,7 @@ function loadIndex(hash) {
 		if(err) {
 			return console.error('Error - ipfs files cat', err)
 		}
+		console.log("Index loaded.")
 		index = JSON.parse(data)
 		console.log(index)
 
@@ -50,6 +51,10 @@ function loadIndex(hash) {
 		document.getElementById("type").innerHTML = index.type ? index.type : ""
 		document.getElementById("status").innerHTML = index.status ? index.status : ""
 		document.getElementById("description").innerHTML = index.desc ? index.desc : ""
+		document.getElementById("altnames").innerHTML = "" //Clear it out first.
+		document.getElementById("genres").innerHTML = ""
+		document.getElementById("coverimg").innerHTML = ""
+		document.getElementById("chapters").innerHTML = ""
 
 		altnames = document.createElement("ul")
 		for( var i = 0; i < index.alt_names.length; i++ ) {
@@ -84,8 +89,10 @@ function loadIndex(hash) {
 				item = document.createElement("li")
 				chap = document.createElement("a")
 				chap.innerText = chapters[i].title
+				chap.href = window.location.hash + "/" + chapters[i].folder + "/"
+				chap.dataset.href = hash + "/" + chapters[i].folder + "/"
 				chap.addEventListener("click", function() {
-					getChapter(hash, chapters[i].folder)
+					getChapter(hash, this.dataset.href)
 				})
 
 				item.appendChild(chap)
