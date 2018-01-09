@@ -29,6 +29,7 @@ node.once('ready', () => {
 	}
 	window.addEventListener("hashchange", function() {
 		document.body.classList.remove("index")
+		document.body.classList.remove("reader")
 		document.body.classList.add("loading")
 		document.getElementById("status").innerHTML="Loading…"
 		if(window.location.hash.length > 1) {
@@ -39,8 +40,6 @@ node.once('ready', () => {
 		}
 	})
 })
-
-
 
 function loadIndex(hash) {
 	console.log("Loading index: " + hash)
@@ -87,6 +86,7 @@ function loadIndex(hash) {
 			console.log("Cover image retrieved.")
 		})
 
+		/*
 		console.log("Retrieving table of contents.")
 		node.files.cat(hash+"/toc.json", function(err, data) {
 			console.log("Table of contents retrieved.")
@@ -102,6 +102,7 @@ function loadIndex(hash) {
 				chaps.appendChild(item)
 			}
 		})
+		*/
 	})
 }
 
